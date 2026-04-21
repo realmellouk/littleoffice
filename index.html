@@ -1176,13 +1176,14 @@
         }
 
         .modal {
-            background: white;
-            border-radius: 30px;
-            padding: 3rem;
-            max-width: 600px;
-            width: 100%;
-            position: relative;
-            animation: slideUp 0.4s ease;
+          background: white;
+    border-radius: 30px;
+    padding: 2rem; /* reduced */
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;        /* 🔥 prevents overflow */
+    overflow-y: auto;        /* 🔥 scroll inside modal */
+    position: relative;
         }
 
         @keyframes slideUp {
@@ -1397,7 +1398,6 @@
             transform: translateY(40px);
         }
     </style>
-<base target="_blank">
 </head>
 <body>
     <!-- Custom Cursor -->
@@ -1416,7 +1416,7 @@
             <li><a href="#gallery">Spaces</a></li>
             <li><a href="#testimonials">Stories</a></li>
         </ul>
-        <a href="#" class="nav-cta" onclick="openModal()">Book a Meeting</a>
+       <a href="#" class="nav-cta" onclick="event.preventDefault(); openModal();">Book a Meeting</a>
     </nav>
 
     <!-- Hero Section -->
@@ -1441,7 +1441,7 @@
                     — so your employees can focus on work while their children thrive just floors away.
                 </p>
                 <div class="hero-buttons">
-                    <a href="#" class="btn-primary" onclick="openModal()">
+                    <a href="#" class="btn-primary" onclick="event.preventDefault(); openModal();">
                         <i data-lucide="calendar"></i>
                         Schedule a Tour
                     </a>
@@ -1461,7 +1461,7 @@
                     <div class="number">40%</div>
                     <div class="label">Less Turnover</div>
                 </div>
-                <div class="play-button" onclick="openVideoModal()">
+                <div class="play-button" onclick="event.preventDefault(); openVideoModal();">
                     <i data-lucide="play" style="width: 28px; height: 28px;"></i>
                 </div>
             </div>
