@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Portal | Crèchify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --coral: #B12A63;
+            --coral-light: #F8DCE8;
+            --teal: #0F7C80;
+            --teal-dark: #075E63;
+            --navy: #083D49;
+            --cream: #F8FCFB;
+            --white: #FFFFFF;
+            --soft: #F6FBFA;
+            --muted: #626879;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Nunito', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: var(--font-body);
+            color: var(--navy);
+            background:
+                radial-gradient(circle at top left, rgba(78, 205, 196, 0.18), transparent 26%),
+                radial-gradient(circle at top right, rgba(255, 107, 107, 0.16), transparent 24%),
+                linear-gradient(180deg, var(--cream), #F4FBFA 58%, #FFFFFF);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .portal-shell {
+            width: min(1180px, calc(100% - 2rem));
+            margin: 0 auto;
+            padding: 1.5rem 0 3rem;
+        }
+
+        .portal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-family: var(--font-display);
+            font-size: 0;
+            font-weight: 700;
+        }
+
+        .logo img {
+            width: 154px;
+            height: 92px;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 18px rgba(8, 61, 73, 0.12));
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .soft-link,
+        .logout-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            border: 2px solid rgba(42, 157, 143, 0.18);
+            background: rgba(255, 255, 255, 0.76);
+            color: var(--navy);
+            border-radius: 999px;
+            padding: 0.75rem 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: var(--font-body);
+        }
+
+        .logout-btn {
+            display: none;
+            background: var(--navy);
+            color: white;
+            border-color: transparent;
+        }
+
+        .portal-shell.logged-in .logout-btn {
+            display: inline-flex;
+        }
+
+        .portal-shell.logged-in .login-view {
+            display: none;
+        }
+
+        .dashboard-view {
+            display: none;
+        }
+
+        .portal-shell.logged-in .dashboard-view {
+            display: block;
+        }
+
+        .login-view {
+            min-height: calc(100vh - 150px);
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 430px;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .login-copy {
+            max-width: 620px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 0.95rem;
+            border-radius: 999px;
+            background: rgba(78, 205, 196, 0.16);
+            color: var(--teal-dark);
+            font-weight: 900;
+            margin-bottom: 1.2rem;
+        }
+
+        .login-copy h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.4rem, 5vw, 4.5rem);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .login-copy p {
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            max-width: 560px;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-top: 1.6rem;
+        }
+
+        .trust-card {
+            background: rgba(255, 255, 255, 0.74);
+            border: 1px solid rgba(42, 157, 143, 0.14);
+            border-radius: 18px;
+            padding: 1rem;
+            box-shadow: 0 14px 30px rgba(26, 26, 46, 0.06);
+        }
+
+        .trust-card i {
+            color: var(--teal-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .trust-card strong {
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .login-card,
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(42, 157, 143, 0.15);
+            border-radius: 28px;
+            padding: 1.5rem;
+            box-shadow: 0 28px 80px rgba(26, 26, 46, 0.12);
+        }
+
+        .login-card h2 {
+            font-family: var(--font-display);
+            font-size: 1.85rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .login-card > p {
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 1.4rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 800;
+            margin-bottom: 0.45rem;
+        }
+
+        input {
+            width: 100%;
+            border: 2px solid #E7ECEF;
+            border-radius: 16px;
+            padding: 0.95rem 1rem;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        input:focus {
+            border-color: var(--teal-dark);
+            box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.18);
+        }
+
+        .login-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin: 0.8rem 0 1rem;
+            color: var(--muted);
+            font-weight: 800;
+            font-size: 0.92rem;
+        }
+
+        .forgot-password {
+            color: var(--teal-dark);
+        }
+
+        .primary-btn {
+            width: 100%;
+            border: none;
+            border-radius: 16px;
+            padding: 1rem 1.2rem;
+            background: linear-gradient(135deg, var(--coral), #C13A74);
+            color: white;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .secondary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: 2px solid rgba(15, 124, 128, 0.18);
+            border-radius: 16px;
+            padding: 0.95rem 1.1rem;
+            background: rgba(15, 124, 128, 0.09);
+            color: var(--teal-dark);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 900;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            transition: all 0.25s ease;
+        }
+
+        .secondary-btn:hover {
+            background: var(--teal-dark);
+            color: white;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 30px rgba(177, 42, 99, 0.25);
+        }
+
+        .login-error {
+            display: none;
+            margin-bottom: 1rem;
+            padding: 0.8rem 0.95rem;
+            border-radius: 14px;
+            background: rgba(255, 107, 107, 0.12);
+            color: #B4232D;
+            font-weight: 800;
+        }
+
+        .login-error.active {
+            display: block;
+        }
+
+        .demo-login {
+            margin-top: 1rem;
+            text-align: center;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 0.92rem;
+        }
+
+        .dashboard-top {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .child-card {
+            display: grid;
+            grid-template-columns: 120px minmax(0, 1fr);
+            gap: 1.2rem;
+            align-items: center;
+            background:
+                radial-gradient(circle at top right, rgba(255, 107, 107, 0.16), transparent 30%),
+                var(--white);
+            border-radius: 28px;
+            padding: 1.25rem;
+            border: 1px solid rgba(42, 157, 143, 0.14);
+            box-shadow: 0 20px 50px rgba(26, 26, 46, 0.09);
+        }
+
+        .child-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 28px;
+            object-fit: cover;
+            border: 5px solid rgba(78, 205, 196, 0.2);
+        }
+
+        .child-card h1 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.7rem);
+            margin-bottom: 0.4rem;
+        }
+
+        .child-meta {
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 0.9rem;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 0.95rem;
+            border-radius: 999px;
+            background: rgba(78, 205, 196, 0.16);
+            color: var(--teal-dark);
+            font-weight: 900;
+        }
+
+        .status-panel {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .mini-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: white;
+            border: 1px solid rgba(42, 157, 143, 0.13);
+            border-radius: 22px;
+            padding: 1rem;
+            box-shadow: 0 14px 34px rgba(26, 26, 46, 0.07);
+        }
+
+        .icon-bubble {
+            width: 46px;
+            height: 46px;
+            flex: 0 0 auto;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: rgba(78, 205, 196, 0.16);
+            color: var(--teal-dark);
+        }
+
+        .mini-stat strong {
+            display: block;
+        }
+
+        .mini-stat span {
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .dashboard-card h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-card h2 i {
+            color: var(--teal-dark);
+        }
+
+        .list {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.85rem;
+            border-radius: 16px;
+            background: var(--soft);
+            color: var(--muted);
+        }
+
+        .list-item strong {
+            color: var(--navy);
+        }
+
+        .tag {
+            align-self: flex-start;
+            white-space: nowrap;
+            border-radius: 999px;
+            background: rgba(255, 107, 107, 0.12);
+            color: var(--coral);
+            padding: 0.25rem 0.55rem;
+            font-weight: 900;
+            font-size: 0.76rem;
+        }
+
+        .note-card {
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.14), rgba(255, 255, 255, 0.88));
+            border-radius: 18px;
+            padding: 1rem;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.7rem;
+        }
+
+        .photo-grid img {
+            width: 100%;
+            aspect-ratio: 1.2;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .wide {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 980px) {
+            .login-view,
+            .dashboard-top {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 680px) {
+            .portal-shell {
+                width: min(100% - 1rem, 1180px);
+                padding-top: 1rem;
+            }
+
+            .portal-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .login-view {
+                min-height: auto;
+            }
+
+            .trust-grid,
+            .dashboard-grid,
+            .photo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .wide {
+                grid-column: auto;
+            }
+
+            .child-card {
+                grid-template-columns: 1fr;
+            }
+
+            .child-photo {
+                width: 96px;
+                height: 96px;
+            }
+
+            .login-card,
+            .dashboard-card,
+            .child-card {
+                border-radius: 22px;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="portal-shell" id="portalShell">
+        <header class="portal-header">
+            <a href="index.html" class="logo">
+                <img src="crechify-logo-official.png" alt="Crèchify">
+            </a>
+            <div class="header-actions">
+                <a href="index.html" class="soft-link"><i data-lucide="arrow-left"></i> Home</a>
+                <button type="button" class="logout-btn" onclick="logoutParent()"><i data-lucide="log-out"></i> Log out</button>
+            </div>
+        </header>
+
+        <section class="login-view" aria-label="Parent login">
+            <div class="login-copy">
+                <div class="eyebrow"><i data-lucide="shield-check"></i> Parent-only updates</div>
+                <h1>A calm window into your child's day.</h1>
+                <p>Sign in to see attendance, activities, meals, rest time, notes from teachers, announcements, and photo updates from the nursery.</p>
+                <div class="trust-grid">
+                    <div class="trust-card">
+                        <i data-lucide="lock"></i>
+                        <strong>Private access</strong>
+                    </div>
+                    <div class="trust-card">
+                        <i data-lucide="heart-handshake"></i>
+                        <strong>Teacher notes</strong>
+                    </div>
+                    <div class="trust-card">
+                        <i data-lucide="camera"></i>
+                        <strong>Photo updates</strong>
+                    </div>
+                </div>
+            </div>
+
+            <form class="login-card" onsubmit="handleLogin(event)">
+                <h2>Parent Login</h2>
+                <p>Use your nursery account details to open today's child dashboard.</p>
+                <div class="login-error" id="loginError">Incorrect email or password. Try the demo login below.</div>
+                <div class="form-group">
+                    <label for="parentEmail">Email</label>
+                    <input id="parentEmail" name="email" type="email" placeholder="parent@crechify.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="parentPassword">Password</label>
+                    <input id="parentPassword" name="password" type="password" placeholder="Enter password" required>
+                </div>
+                <div class="login-meta">
+                    <span>Secure parent access</span>
+                    <a href="#" class="forgot-password" onclick="event.preventDefault(); showForgotMessage();">Forgot password?</a>
+                </div>
+                <button class="primary-btn" type="submit">Login</button>
+                <div class="demo-login">Demo: parent@crechify.com / 1234</div>
+            </form>
+        </section>
+
+        <section class="dashboard-view" aria-label="Parent dashboard">
+            <div class="dashboard-top">
+                <article class="child-card">
+                    <img src="reading.jpg" alt="Child profile photo" class="child-photo">
+                    <div>
+                        <div class="eyebrow">Today's update</div>
+                        <h1>Lina Benali</h1>
+                        <p class="child-meta">Little Explorers Room · Age 3 · Lead teacher: Ms. Sara</p>
+                        <span class="status-pill"><i data-lucide="badge-check"></i> Current status: Playing</span>
+                    </div>
+                </article>
+
+                <aside class="status-panel">
+                    <div class="mini-stat">
+                        <span class="icon-bubble"><i data-lucide="clipboard-check"></i></span>
+                        <div><strong>Attendance</strong><span>Present · Checked in at 08:42</span></div>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="icon-bubble"><i data-lucide="moon"></i></span>
+                        <div><strong>Nap time</strong><span>12:35 - 13:20 · Rested well</span></div>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="icon-bubble"><i data-lucide="utensils"></i></span>
+                        <div><strong>Meals</strong><span>Lunch finished · Snack scheduled</span></div>
+                    </div>
+                </aside>
+            </div>
+
+            <div class="dashboard-grid">
+                <article class="dashboard-card">
+                    <h2><i data-lucide="calendar-days"></i> Daily Schedule</h2>
+                    <div class="list">
+                        <div class="list-item"><strong>08:30</strong><span>Arrival and free play</span></div>
+                        <div class="list-item"><strong>10:00</strong><span>Creative art activity</span></div>
+                        <div class="list-item"><strong>12:00</strong><span>Lunch</span></div>
+                        <div class="list-item"><strong>14:00</strong><span>Outdoor play</span></div>
+                    </div>
+                </article>
+
+                <article class="dashboard-card">
+                    <h2><i data-lucide="utensils"></i> Meals & Snacks</h2>
+                    <div class="list">
+                        <div class="list-item"><strong>Breakfast</strong><span>Banana, yogurt</span></div>
+                        <div class="list-item"><strong>Lunch</strong><span>Chicken, rice, vegetables</span></div>
+                        <div class="list-item"><strong>Snack</strong><span>Apple slices, milk</span></div>
+                    </div>
+                </article>
+
+                <article class="dashboard-card">
+                    <h2><i data-lucide="palette"></i> Activities</h2>
+                    <div class="list">
+                        <div class="list-item"><strong>Art</strong><span>Finger painting</span><span class="tag">Loved it</span></div>
+                        <div class="list-item"><strong>Story</strong><span>The Very Busy Day</span></div>
+                        <div class="list-item"><strong>Play</strong><span>Blocks with friends</span></div>
+                    </div>
+                </article>
+
+                <article class="dashboard-card wide">
+                    <h2><i data-lucide="message-circle-heart"></i> Teacher Notes</h2>
+                    <div class="note-card">
+                        Lina had a bright morning and joined the group activity with confidence. She enjoyed painting and shared materials kindly with two classmates. She may be a little tired after lunch, so we gave her extra quiet time before outdoor play.
+                    </div>
+                    <button type="button" class="secondary-btn" onclick="messageTeacher()">
+                        <i data-lucide="send"></i>
+                        Message teacher
+                    </button>
+                </article>
+
+                <article class="dashboard-card">
+                    <h2><i data-lucide="megaphone"></i> Announcements</h2>
+                    <div class="list">
+                        <div class="list-item"><strong>Tomorrow</strong><span>Please bring a sun hat.</span></div>
+                        <div class="list-item"><strong>Friday</strong><span>Family reading morning at 09:30.</span></div>
+                    </div>
+                </article>
+
+                <article class="dashboard-card wide">
+                    <h2><i data-lucide="image"></i> Photo Updates</h2>
+                    <div class="photo-grid">
+                        <img src="art.jpg" alt="Art activity update">
+                        <img src="play-area.jpg" alt="Play area update">
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const demoParent = {
+            email: 'parent@crechify.com',
+            password: '1234'
+        };
+
+        window.handleLogin = function handleLogin(event) {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const email = form.elements.email.value.trim().toLowerCase();
+            const password = form.elements.password.value.trim();
+            const error = document.getElementById('loginError');
+            error.textContent = 'Incorrect email or password. Try the demo login below.';
+
+            if (email === demoParent.email && password === demoParent.password) {
+                error.classList.remove('active');
+                document.getElementById('portalShell').classList.add('logged-in');
+                form.reset();
+                history.replaceState(null, '', '#dashboard');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                lucide.createIcons();
+                return;
+            }
+
+            error.classList.add('active');
+        };
+
+        window.logoutParent = function logoutParent() {
+            document.getElementById('portalShell').classList.remove('logged-in');
+            document.getElementById('loginError').classList.remove('active');
+            history.replaceState(null, '', window.location.pathname);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.showForgotMessage = function showForgotMessage() {
+            const error = document.getElementById('loginError');
+            error.textContent = 'Password reset is a frontend demo for now. Please contact the nursery office.';
+            error.classList.add('active');
+        };
+
+        window.messageTeacher = function messageTeacher() {
+            alert('Frontend demo: this would open a secure message to Ms. Sara.');
+        };
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>
