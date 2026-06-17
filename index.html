@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -2256,8 +2256,7 @@
                     controls
                     autoplay>
                     <source src="daycare.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                    Votre navigateur ne supporte pas la balise vidéo.
             </div>
         </div>
     </div>
@@ -2394,18 +2393,18 @@
 
         const cameraRooms = {
             nursery: {
-                title: 'Nursery Room Camera',
-                description: 'Quiet activity and rest area. Demo dashboard view.',
+                title: 'Caméra de la salle des petits',
+                description: 'Espace calme d'activités et de repos. Vue de démonstration.',
                 image: 'class.jpg'
             },
             play: {
-                title: 'Play Area Camera',
-                description: 'Shared play space with supervised group activities.',
+                title: 'Caméra de l’aire de jeux',
+                description: 'Espace de jeux partagé avec activités collectives surveillées.',
                 image: 'play-area.jpg'
             },
             classroom: {
-                title: 'Classroom Camera',
-                description: 'Learning corner for reading, art, and guided lessons.',
+                title: 'Caméra de la classe',
+                description: 'Coin d’apprentissage pour la lecture, l’art et les ateliers guidés.',
                 image: 'reading.jpg'
             }
         };
@@ -2464,7 +2463,7 @@
             e.preventDefault();
             const btn = e.target.querySelector('.btn-submit');
             const originalText = btn.textContent;
-            btn.textContent = '✓ Request Sent!';
+            btn.textContent = '✓ Demande envoyée !';
             btn.style.background = 'linear-gradient(135deg, #2A9D8F, #4ECDC4)';
 
             setTimeout(() => {
@@ -2483,7 +2482,7 @@
             const code = form.elements.parentCode.value.trim();
             const btn = e.target.querySelector('.btn-submit');
             const originalText = btn.textContent;
-            btn.textContent = 'Checking Access...';
+            btn.textContent = 'Vérification en cours...';
             btn.style.background = 'linear-gradient(135deg, #2A9D8F, #4ECDC4)';
 
             setTimeout(() => {
