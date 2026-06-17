@@ -1121,8 +1121,24 @@
         }
 
         .footer-brand .logo {
-            color: white;
-            margin-bottom: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--cream);
+            padding: 1rem;
+            border-radius: 18px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.25s ease;
+        }
+
+        .footer-brand .logo:hover {
+            transform: scale(1.03);
+        }
+
+        .footer-brand .logo-mark {
+            max-height: 60px;
+            width: auto;
+            object-fit: contain;
         }
 
         .footer-brand p {
@@ -2044,7 +2060,7 @@
         <div class="footer-grid">
             <div class="footer-brand">
                 <a href="#" class="logo">
-                    <img src="crechify-logo-official.png" alt="Crèchify" class="logo-mark">
+                    <img src="crechify-logo-transparent.png" alt="Crèchify" class="logo-mark">
                 </a>
                 <p>Nous transformons les espaces d'entreprise en environnements bienveillants où les enfants s'épanouissent et où les parents travaillent plus sereinement.</p>
                 <div class="social-links">
