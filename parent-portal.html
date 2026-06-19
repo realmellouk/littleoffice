@@ -464,11 +464,17 @@
             gap: 0.7rem;
         }
 
-        .photo-grid img {
+        .photo-grid img,
+        .photo-grid video {
             width: 100%;
             aspect-ratio: 1.2;
             object-fit: cover;
             border-radius: 16px;
+            background: #000;
+        }
+
+        .photo-grid video {
+            display: block;
         }
 
         .wide {
@@ -591,11 +597,11 @@
         <section class="dashboard-view" aria-label="Tableau de bord des parents">
             <div class="dashboard-top">
                 <article class="child-card">
-                    <img src="reading.jpg" alt="Photo de profil de l'enfant" class="child-photo">
+                    <img src="pfp.jpg" alt="Photo de profil de l'enfant" class="child-photo">
                     <div>
                         <div class="eyebrow">Actualités du jour</div>
                         <h1>Lina Benali</h1>
-                        <p class="child-meta">Groupe des Petits Explorateurs · 3 ans · Éducatrice référente : Mme Sara</p>
+                        <p class="child-meta">Groupe des Petits Explorateurs · 6 ans · Éducatrice référente : Mme Sara</p>
                         <span class="status-pill"><i data-lucide="badge-check"></i> Activité actuelle : jeu</span>
                     </div>
                 </article>
@@ -665,10 +671,10 @@
                 </article>
 
                 <article class="dashboard-card wide">
-                    <h2><i data-lucide="image"></i> Nouvelles en photos</h2>
+                    <h2><i data-lucide="image"></i> Nouvelles</h2>
                     <div class="photo-grid">
-                        <img src="art.jpg" alt="Photo de l'activité artistique">
-                        <img src="play-area.jpg" alt="Photo de l'espace de jeu">
+                        <video src="vid1.mp4" controls playsinline></video>
+                        <video src="vid2.mp4" controls playsinline></video>
                     </div>
                 </article>
             </div>
